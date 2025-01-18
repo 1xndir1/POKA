@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>POKA</title>
+        <link rel="icon" type="image/icon" href="favicon.ico">
+        <!--font awesome cdn-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <!--css file-->
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <!--meta tag-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--swiper-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    </head>
+    <body>
+        <!--header section-->
+        <header class="header">
+            <a href="#home" class="logo"><i class="fa fa-heart"> POKA</i></a>
+            <nav class="navbar">
+                <a href="index.html">home</a>
+                <a href="index.html#features">features</a>
+                <a href="products.html">products</a>
+                <a href="index.html#review">review</a>
+                <a href="index.html#aboutus">about us</a>
+            </nav>
+
+        <div class="icons">
+            <div class="fa fa-bars" id="menu-btn"></div>
+            <div class="fa fa-shopping-cart" id="cart-btn"></div>
+            <div class="fa fa-user" id="login-btn"></div>
+        </div>
+
+
+        <div class="shopping-cart">
+    <div id="cart-items"></div>
+    <div class="total" id="cart-total">Total: Rp0</div>
+    <a href="checkout.html" class="btn">Checkout</a>
+</div>
+
+
+        <form action="#" class="login-form">
+    <h3>LOGIN</h3>
+    <input type="email" placeholder="Enter your email" class="box" id="login-email">
+    <input type="password" placeholder="Enter your password" class="box" id="login-password">
+    <div class="error-message" id="login-error"></div> <input type="submit" value="Login" class="btn">
+    <p>Forget Your Password <a href="#">Click Here</a></p>
+    <p>Don't Have an Account <a href="signup.html">Sign Up Here</a></p>
+</form>
+
+        </header>
+
+    <section class="products" id="products">
+        <h1 class="heading">Available <span>Products</span></h1>
+        <div id="category-filter" class="category-filter"></div>
+        <div class="product-container"></div>
+    </section>
+ <!--footer-->
+            <footer>
+    <div class="footer-content">
+        <div class="contact-info">
+            <h3>Contact Us</h3>
+            <p>
+                <i class="fa fa-map-marker"></i> 123 K-Pop Street, Seoul, South Korea
+            </p>
+            <p>
+                <i class="fa fa-phone"></i> +82-2-1234-5678
+            </p>
+            <p>
+                <i class="fa fa-envelope"></i> info@poka.com
+            </p>
+        </div>
+    </div>
+
+    <div class="copyright">
+        &copy; 2024 POKA. All rights reserved.
+    </div>
+</footer>
+    
+    <script src="products.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
