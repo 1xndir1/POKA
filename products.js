@@ -110,6 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
             maxQuantity: 1,
             categories: ['seventeen', 'postcard']
         },
+        {
+            id: 14,
+            name: 'YOUNGJAE COLORS: Photo ID',
+            price: 10000,
+            image: 'youngjae_1_id.png',
+            maxQuantity: 1,
+            categories: ['got7', 'photo id', 'album']
+        },
     ];
 
     // Function to display products
@@ -235,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentProductsData.forEach(product => {
             product.categories.forEach(category => {
-                if (['boynextdoor', 'woodz', 'wayv', 'seventeen', 'wei', 'day6', 'got7', 'plave'].includes(category)) {
+                if (['boynextdoor', 'woodz', 'wayv', 'seventeen', 'wei', 'day6', 'got7', 'plave', 'seunghwan'].includes(category)) {
                     groupCategories.add(category);
                 } else if (['photocard', 'polaroid', 'sticker', 'postcard', 'circle card', 'bookmark', 'transparent card', 'photo id'].includes(category)) {
                     materialCategories.add(category);
