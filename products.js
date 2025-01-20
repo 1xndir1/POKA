@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 50000,
             image: 'trans_2.png',
             maxQuantity: 1,
-            categories: ['plave', 'transparent card', 'event']
+            categories: ['plave', 'transparent card']
         },
         {
             id: 13,
@@ -118,6 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
             maxQuantity: 1,
             categories: ['got7', 'photo id', 'album']
         },
+    										
+    
     ];
 
     // Function to display products
