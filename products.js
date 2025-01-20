@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 10000,
             image: 'seunghwan_1_circle_full.png',
             maxQuantity: 1,
-            categories: ['wei', 'circle card', 'album']
+            categories: ['seunghwan', 'circle card', 'album']
         },
         {
             id: 11,
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 50000,
             image: 'trans_2.png',
             maxQuantity: 1,
-            categories: ['plave', 'transparent card']
+            categories: ['plave', 'transparent card', 'event']
         },
         {
             id: 13,
