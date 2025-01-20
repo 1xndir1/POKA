@@ -3,17 +3,12 @@
     <head>
         <title>POKA</title>
         <link rel="icon" type="image/icon" href="favicon.ico">
-        <!--font awesome cdn-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-        <!--css file-->
         <link rel="stylesheet" type="text/css" href="style.css">
-        <!--meta tag-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--swiper-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     </head>
     <body>
-        <!--header section-->
         <header class="header">
             <a href="index.html" class="logo"><i class="fa fa-heart"> POKA</i></a>
             <nav class="navbar">
@@ -26,33 +21,40 @@
 
         <div class="icons">
             <div class="fa fa-bars" id="menu-btn"></div>
+            <div class="fa fa-search" id="search-btn"></div>
             <div class="fa fa-shopping-cart" id="cart-btn"></div>
             <div class="fa fa-user" id="login-btn"></div>
         </div>
 
+            
+        <form action="products.html" class="search-form" id="search-form">
+            <input type="search" id="search-input" name="search" placeholder="Search Here ..." required>
+            <button type="submit">
+                <label for="search-box" class="fa fa-search"></label>
+            </button>
+        </form>
+
 
         <div class="shopping-cart">
-    <div id="cart-items"></div>
-    <div class="total" id="cart-total">Total: Rp0</div>
-    <a href="checkout.html" class="btn">Checkout</a>
-</div>
-
+            <div id="cart-items"></div>
+            <div class="total" id="cart-total">Total: Rp0</div>
+            <a href="checkout.html" class="btn">Checkout</a>
+        </div>
 
         <form action="#" class="login-form">
-    <h3>LOGIN</h3>
-    <input type="email" placeholder="Enter your email" class="box" id="login-email">
-    <input type="password" placeholder="Enter your password" class="box" id="login-password">
-    <div class="error-message" id="login-error"></div> <input type="submit" value="Login" class="btn">
-    <p>Forget Your Password <a href="#">Click Here</a></p>
-    <p>Don't Have an Account <a href="signup.html">Sign Up Here</a></p>
-</form>
-
+            <h3>LOGIN</h3>
+            <input type="email" placeholder="Enter your email" class="box" id="login-email">
+            <input type="password" placeholder="Enter your password" class="box" id="login-password">
+            <div class="error-message" id="login-error"></div> <input type="submit" value="Login" class="btn">
+            <p>Forget Your Password <a href="#">Click Here</a></p>
+            <p>Don't Have an Account <a href="signup.html">Sign Up Here</a></p>
+        </form>
         </header>
 
     <section class="signup">
         <h1 class="heading">Sign <span>Up</span></h1>
 
-        <form action="#" class="signup-form">
+        <form class="signup-form">
             <div class="form-group">
                 <label for="signup-name">Full Name:</label>
                 <input type="text" id="signup-name" name="signup-name" required>
@@ -73,12 +75,12 @@
                 <input type="password" id="signup-confirm-password" name="signup-confirm-password" required>
             </div>
 
-            <div class="error-message" id="signup-error"></div> <input type="submit" value="Sign Up" class="btn">
+            <div class="error-message" id="signup-error"></div> 
+            <input type="submit" value="Sign Up" class="btn">
             <p>Already have an account? <a href="index.html">Log In</a></p>
         </form>
     </section>
 
-    <!--footer-->
             <footer>
     <div class="footer-content">
         <div class="contact-info">

@@ -2,22 +2,18 @@
 <html>
     <head>
         <title>POKA</title>
+        
         <link rel="icon" type="image/icon" href="favicon.ico">
-        <!--font awesome cdn-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-        <!--css file-->
         <link rel="stylesheet" type="text/css" href="style.css">
-        <!--meta tag-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--swiper-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     </head>
     <body>
-        <!--header section-->
         <header class="header">
-            <a href="#home" class="logo"><i class="fa fa-heart"> POKA</i></a>
+            <a href="index.html" class="logo"><i class="fa fa-heart"> POKA</i></a>
             <nav class="navbar">
-                <a href="#home">home</a>
+                <a href="index.html">home</a>
                 <a href="#features">features</a>
                 <a href="products.html">products</a>
                 <a href="#review">review</a>
@@ -26,64 +22,68 @@
 
         <div class="icons">
             <div class="fa fa-bars" id="menu-btn"></div>
+            <div class="fa fa-search" id="search-btn"></div>
             <div class="fa fa-shopping-cart" id="cart-btn"></div>
             <div class="fa fa-user" id="login-btn"></div>
         </div>
 
+            
+        <form action="products.html" class="search-form" id="search-form">
+            <input type="search" id="search-input" name="search" placeholder="Search Here ..." required>
+            <button type="submit">
+                <label for="search-box" class="fa fa-search"></label>
+            </button>
+        </form>
+
 
         <div class="shopping-cart">
-    <div id="cart-items"></div>
-    <div class="total" id="cart-total">Total: Rp0</div>
-    <a href="checkout.html" class="btn">Checkout</a>
-</div>
-
+            <div id="cart-items"></div>
+            <div class="total" id="cart-total">Total: Rp0</div>
+            <a href="checkout.html" class="btn">Checkout</a>
+        </div>
 
         <form action="#" class="login-form">
-    <h3>LOGIN</h3>
-    <input type="email" placeholder="Enter your email" class="box" id="login-email">
-    <input type="password" placeholder="Enter your password" class="box" id="login-password">
-    <div class="error-message" id="login-error"></div> <input type="submit" value="Login" class="btn">
-    <p>Forget Your Password <a href="#">Click Here</a></p>
-    <p>Don't Have an Account <a href="signup.html">Sign Up Here</a></p>
-</form>
-
+            <h3>LOGIN</h3>
+            <input type="email" placeholder="Enter your email" class="box" id="login-email">
+            <input type="password" placeholder="Enter your password" class="box" id="login-password">
+            <div class="error-message" id="login-error"></div> <input type="submit" value="Login" class="btn">
+            <p>Forget Your Password <a href="#">Click Here</a></p>
+            <p>Don't Have an Account <a href="signup.html">Sign Up Here</a></p>
+        </form>
         </header>
 
-<!--banner section-->
-<section class="home" id="home">
-    <div class="content">
-        <h3>Build the ultimate <span>collection</span>.</h3>
-        <p>POKA is your one-stop shop for authentic K-Pop photocards.<br>We offer a wide selection of official photocards from your favorite groups and idols, at competitive prices.<br>Find your bias, complete your collection, and fuel your K-Pop passion at POKA!</p>
-    <a href="products.html" class="btn">Shop Now</a>
-    </div>
-    </section>
+        <section class="home" id="home">
+            <div class="content">
+                <h3>Build the ultimate <span>collection</span>.</h3>
+                <p>POKA is your one-stop shop for authentic K-Pop photocards.<br>We offer a wide selection of official photocards from your favorite groups and idols, at competitive prices.<br>Find your bias, complete your collection, and fuel your K-Pop passion at POKA!</p>
+            <a href="products.html" class="btn">Shop Now</a>
+            </div>
+        </section>
 
-<!--feature section-->
-<section class="features" id="features">
-<h1 class="heading">our <span>features</span></h1>
+        <section class="features" id="features">
+        <h1 class="heading">our <span>features</span></h1>
 
-<div class="box-container">
-    <div class="box">
-        <img src="authenthic.png">
-        <h3>Authenthic</h3>
-        <p>Authentic and official goods to make shopping worry-free.</p>
-    </div>
-    
-    <div class="box">
-        <img src="freedelivery.png">
-        <h3>Free Delivery</h3>
-        <p>Shop with peace of mind and free delivery.</p>
-    </div>
-    
-    <div class="box">
-        <img src="payments.png">
-        <h3>Easy Payments</h3>
-        <p>Enjoy hassle-free shopping with our simple and secure payment system.</p>
-    </div>
-</div>
-</section>
+        <div class="box-container">
+            <div class="box">
+                <img src="authenthic.png">
+                <h3>Authenthic</h3>
+                <p>Authentic and official goods to make shopping worry-free.</p>
+            </div>
+            
+            <div class="box">
+                <img src="freedelivery.png">
+                <h3>Free Delivery</h3>
+                <p>Shop with peace of mind and free delivery.</p>
+            </div>
+            
+            <div class="box">
+                <img src="payments.png">
+                <h3>Easy Payments</h3>
+                <p>Enjoy hassle-free shopping with our simple and secure payment system.</p>
+            </div>
+        </div>
+        </section>
 
-<!--Products-->
         <section class="products" id="products">
             <h1 class="heading">Most <span>Wanted</span></h1>
             <div class="swiper product-slider">
@@ -120,8 +120,7 @@
                    
                     <a href="products.html" class="btn" align=center>See All</a>
                 </section>
-<!--Review-->
-              <section class="review" id="review">
+        <section class="review" id="review">
     <h1 class="heading">Customer's <span> Review</span></h1>
     <div class="swiper review-slider">
         <div class="swiper-wrapper">
@@ -195,7 +194,6 @@
                         </div>
                     </div>
                 </section>
-            <!--footer-->
             <footer>
     <div class="footer-content">
         <div class="contact-info">
@@ -217,10 +215,8 @@
     </div>
 </footer>
 
-<script src="checkout.js"></script>
-<script src="products.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="script.js">
-</script>
+        <script src="products.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="script.js"></script>
     </body>
 </html>

@@ -1,26 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     const orderNumberSpan = document.getElementById('order-number');
     const orderDetailsContainer = document.getElementById('order-details');
-
-    /*Get the query string from the URL*/
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const orderDataString = urlParams.get('orderData');
+    const orderDataString = sessionStorage.getItem('orderData');
 
     if (orderDataString) {
-        const orderData = JSON.parse(decodeURIComponent(orderDataString));
+        const orderData = JSON.parse(orderDataString);
 
-        /*Display order details*/
         displayOrderDetails(orderData);
 
-        /*Generate and display a random order number*/
         const orderNumber = generateOrderNumber();
         orderNumberSpan.textContent = orderNumber;
 
-        /*Clear the cart from local storage*/
+        sessionStorage.removeItem('orderData');
         localStorage.removeItem('cart');
     } else {
-        
         orderDetailsContainer.innerHTML = '<p>No order details found.</p>';
     }
 });
@@ -33,7 +26,6 @@ function displayOrderDetails(orderData) {
     const orderDetailsContainer = document.getElementById('order-details');
     orderDetailsContainer.innerHTML = '';
 
-    
     const customerInfoDiv = document.createElement('div');
     customerInfoDiv.innerHTML = `
         <h3>Customer Information</h3>
@@ -43,7 +35,6 @@ function displayOrderDetails(orderData) {
     `;
     orderDetailsContainer.appendChild(customerInfoDiv);
 
-    
     const cartItemsDiv = document.createElement('div');
     cartItemsDiv.innerHTML = '<h3>Order Items</h3>';
     orderData.cart.forEach(item => {

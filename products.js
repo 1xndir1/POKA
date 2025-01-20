@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             maxQuantity: 1,
             categories: ['plave', 'transparent card']
         },
-    {
+        {
             id: 13,
             name: 'DK SVT 2022 PB TN17: Postcard',
             price: 40000,
@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     ];
 
+    // Function to display products
     function displayProducts(productsToDisplay) {
         productContainer.innerHTML = '';
 
@@ -123,30 +124,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3>${product.name}</h3>
                 <div class="price">Rp${product.price.toLocaleString()}</div>
                 <input type="number" min="1" max="${product.maxQuantity}" value="1" class="quantity">
+                ${product.maxQuantity === 1 ? '<div class="limited-quantity">Only 1 left!</div>' : ''}
                 <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+                <div class="add-success-message">Added to Cart!</div>
             `;
             productContainer.appendChild(productElement);
         });
 
+        // Re-attach event listeners to the new 'Add to Cart' buttons
         attachAddToCartEventListeners();
     }
 
-    function addToCart(product) {
+    // Load products from local storage or use the default productsData
+    const storedProductsData = JSON.parse(localStorage.getItem('productsData'));
+    const currentProductsData = storedProductsData || productsData;
+
+    // Display products when the page loads
+    displayProducts(currentProductsData);
+
+    function addToCart(product, quantity) {
         let existingProduct = cart.find(item => item.id === product.id);
 
         if (existingProduct) {
-            if (existingProduct.quantity < existingProduct.maxQuantity) {
-                existingProduct.quantity++;
+            if (existingProduct.quantity + quantity <= existingProduct.maxQuantity) {
+                existingProduct.quantity += quantity;
             } else {
                 alert(`Sorry, we only have ${existingProduct.maxQuantity} of ${existingProduct.name}.`);
                 return;
             }
         } else {
-            cart.push({ ...product, quantity: 1 });
+            cart.push({ ...product, quantity });
         }
 
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartDisplay();
+
+        // Show success message
+        const button = event.target;
+        const successMessage = button.nextElementSibling; // Get the next element, which is the success message
+        successMessage.style.display = 'block';
+
+        // Hide the message after 2 seconds
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 2000);
     }
 
     function attachAddToCartEventListeners() {
@@ -155,10 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', () => {
                 const productElement = button.closest('.product');
                 const productId = parseInt(button.dataset.productId);
-                const product = productsData.find(p => p.id === productId);
+                const product = currentProductsData.find(p => p.id === productId);
+                const quantityInput = productElement.querySelector('.quantity');
+                const quantity = parseInt(quantityInput.value) || 1;
 
                 if (product) {
-                    addToCart(product);
+                    addToCart(product, quantity);
                 }
             });
         });
@@ -209,8 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const groupCategories = new Set();
         const materialCategories = new Set();
         const typeCategories = new Set();
-    
-        productsData.forEach(product => {
+
+        currentProductsData.forEach(product => {
             product.categories.forEach(category => {
                 if (['boynextdoor', 'woodz', 'wayv', 'seventeen', 'wei', 'day6', 'got7', 'plave'].includes(category)) {
                     groupCategories.add(category);
@@ -221,16 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-    
+
         categoryFilter.innerHTML = '';
-    
-        // Sort and create group filter section
+
         const sortedGroupCategories = Array.from(groupCategories).sort();
         if (sortedGroupCategories.length > 0) {
             const groupFilterHeader = document.createElement('h3');
             groupFilterHeader.textContent = 'Group';
             categoryFilter.appendChild(groupFilterHeader);
-    
+
             sortedGroupCategories.forEach(category => {
                 const filterElement = document.createElement('div');
                 filterElement.classList.add('filter-option');
@@ -241,14 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 categoryFilter.appendChild(filterElement);
             });
         }
-    
-        // Sort and create material filter section
+
         const sortedMaterialCategories = Array.from(materialCategories).sort();
         if (sortedMaterialCategories.length > 0) {
             const materialFilterHeader = document.createElement('h3');
             materialFilterHeader.textContent = 'Material';
             categoryFilter.appendChild(materialFilterHeader);
-    
+
             sortedMaterialCategories.forEach(category => {
                 const filterElement = document.createElement('div');
                 filterElement.classList.add('filter-option');
@@ -259,14 +280,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 categoryFilter.appendChild(filterElement);
             });
         }
-    
-        // Sort and create type filter section
+
         const sortedTypeCategories = Array.from(typeCategories).sort();
         if (sortedTypeCategories.length > 0) {
             const typeFilterHeader = document.createElement('h3');
             typeFilterHeader.textContent = 'Type';
             categoryFilter.appendChild(typeFilterHeader);
-    
+
             sortedTypeCategories.forEach(category => {
                 const filterElement = document.createElement('div');
                 filterElement.classList.add('filter-option');
@@ -277,10 +297,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 categoryFilter.appendChild(filterElement);
             });
         }
-    
+
         attachCategoryFilterEventListeners();
     }
-    
 
     function attachCategoryFilterEventListeners() {
         const filterOptions = document.querySelectorAll('.filter-option input');
@@ -295,13 +314,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterProducts(selectedCategories) {
         const filteredProducts = selectedCategories.length > 0
-            ? productsData.filter(product => selectedCategories.every(category => product.categories.includes(category)))
-            : productsData;
+            ? currentProductsData.filter(product => selectedCategories.every(category => product.categories.includes(category)))
+            : currentProductsData;
         displayProducts(filteredProducts);
     }
 
-    // Initialize and display on page load
-    displayProducts(productsData);
+    function handleSearch(query) {
+        const filteredProducts = currentProductsData.filter(product => {
+            const productName = product.name.toLowerCase();
+            const productCategories = product.categories.join(' ').toLowerCase();
+            const searchQuery = query.toLowerCase();
+    
+            return productName.includes(searchQuery) || productCategories.includes(searchQuery);
+        });
+    
+        displayProducts(filteredProducts);
+    }
+
+    // Update the displayProducts function to display search results
+    function displayProducts(productsToDisplay, isSearchResult = false) {
+        productContainer.innerHTML = '';
+
+        // Display the search results message only if it's a search result
+        if (isSearchResult) {
+            const searchResultsMessage = document.createElement('h3');
+            searchResultsMessage.textContent = `Search Results (${productsToDisplay.length})`;
+            searchResultsMessage.classList.add('search-results-message');
+            productContainer.appendChild(searchResultsMessage);
+        }
+
+        productsToDisplay.forEach(product => {
+            const productElement = document.createElement('div');
+            productElement.classList.add('product');
+            productElement.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <div class="price">Rp${product.price.toLocaleString()}</div>
+                <input type="number" min="1" max="${product.maxQuantity}" value="1" class="quantity">
+                <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+            `;
+            productContainer.appendChild(productElement);
+        });
+
+        attachAddToCartEventListeners();
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+
+    if (searchQuery) {
+        handleSearch(searchQuery);
+    } else {
+        // Display all products or a specific set of products when there is no search query
+        displayProducts(currentProductsData);
+    }
+
     createCategoryFilters();
     updateCartDisplay();
 });

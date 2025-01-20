@@ -30,24 +30,21 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        
         const fullName = document.getElementById('full-name').value;
         const email = document.getElementById('email').value;
         const address = document.getElementById('address').value;
 
-        
         const orderData = {
-            fullName: fullName,
-            email: email,
-            address: address,
-            cart: cart
+            fullName,
+            email,
+            address,
+            cart
         };
 
-        /*Clear the cart after "placing" the order*/
-        localStorage.removeItem('cart');
+        // Store orderData in sessionStorage
+        sessionStorage.setItem('orderData', JSON.stringify(orderData));
 
-        /*Redirect to confirmation page with order data as URL parameters*/
-        const queryString = `?orderData=${encodeURIComponent(JSON.stringify(orderData))}`;
-        window.location.href = 'confirmation.html' + queryString;
+        // Redirect to confirmation page
+        window.location.href = 'confirmation.html';
     });
 });
