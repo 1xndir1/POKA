@@ -1,14 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Select the necessary DOM elements
     const productContainer = document.querySelector('.product-container');
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
     const categoryFilter = document.getElementById('category-filter');
-
-    // Initialize the cart with items from local storage or an empty array
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Array to store product data
     const productsData = [
         {
             id: 1,
@@ -124,12 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     ];
 
-    // Function to display products on the page
+    // Function to display products
     function displayProducts(productsToDisplay) {
-        // Clear the existing products in the container
         productContainer.innerHTML = '';
 
-        // Iterate over the products to display and create HTML for each
         productsToDisplay.forEach(product => {
             const productElement = document.createElement('div');
             productElement.classList.add('product');
@@ -142,73 +136,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
                 <div class="add-success-message">Added to Cart!</div>
             `;
-            // Add the created product element to the product container
             productContainer.appendChild(productElement);
         });
 
-        // Re-attach event listeners to the 'Add to Cart' buttons
+        // Re-attach event listeners to the new 'Add to Cart' buttons
         attachAddToCartEventListeners();
     }
 
-    // Load product data from local storage if available, otherwise use default productsData
+    // Load products from local storage or use the default productsData
     const storedProductsData = JSON.parse(localStorage.getItem('productsData'));
     const currentProductsData = storedProductsData || productsData;
 
-    // Call displayProducts to show the products on page load
+    // Display products when the page loads
     displayProducts(currentProductsData);
 
-    // Function to add a product to the cart
     function addToCart(product, quantity) {
-        // Find the product in the cart based on its ID
         let existingProduct = cart.find(item => item.id === product.id);
 
         if (existingProduct) {
-            // If the product already exists in the cart and adding the new quantity doesn't exceed the max quantity
             if (existingProduct.quantity + quantity <= existingProduct.maxQuantity) {
-                // Increase the product's quantity
                 existingProduct.quantity += quantity;
             } else {
-                // Alert the user if adding the new quantity would exceed the max quantity
                 alert(`Sorry, we only have ${existingProduct.maxQuantity} of ${existingProduct.name}.`);
-                return; // Exit the function to prevent adding the product
+                return;
             }
         } else {
-            // If the product is not in the cart, add it with the specified quantity
             cart.push({ ...product, quantity });
         }
 
-        // Update the cart in local storage
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Update the cart display in the header
         updateCartDisplay();
 
-        // Show a success message
+        // Show success message
         const button = event.target;
         const successMessage = button.nextElementSibling; // Get the next element, which is the success message
         successMessage.style.display = 'block';
 
-        // Hide the success message after 2 seconds
+        // Hide the message after 2 seconds
         setTimeout(() => {
             successMessage.style.display = 'none';
         }, 2000);
     }
 
-    // Function to attach event listeners to 'Add to Cart' buttons
     function attachAddToCartEventListeners() {
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
         addToCartButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Find the closest parent element with the class 'product'
                 const productElement = button.closest('.product');
-                // Get the product ID from the button's data attribute
                 const productId = parseInt(button.dataset.productId);
-                // Find the product in currentProductsData based on the ID
                 const product = currentProductsData.find(p => p.id === productId);
-                // Get the quantity input field and its value
                 const quantityInput = productElement.querySelector('.quantity');
                 const quantity = parseInt(quantityInput.value) || 1;
 
-                // If the product is found, add it to the cart
                 if (product) {
                     addToCart(product, quantity);
                 }
@@ -216,14 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to update the cart display in the header
     function updateCartDisplay() {
-        // Clear the existing cart items in the header
         cartItemsContainer.innerHTML = '';
-        // Initialize the total price to 0
         let totalPrice = 0;
 
-        // Iterate over each item in the cart and create HTML to display it
         cart.forEach(item => {
             const cartItem = document.createElement('div');
             cartItem.classList.add('box');
@@ -236,54 +211,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="quantity">Qty: ${item.quantity}</span>
                 </div>
             `;
-            // Append the newly created cart item to the cart items container
             cartItemsContainer.appendChild(cartItem);
-            // Update the total price by adding the price of each item multiplied by its quantity
             totalPrice += item.price * item.quantity;
         });
 
-        // Update the total price element in the header
         cartTotalElement.textContent = `Total: Rp${totalPrice.toLocaleString()}`;
 
-        // Re-attach event listeners to the 'Remove' buttons for the new cart items
         attachRemoveEventListeners();
     }
 
-    // Function to remove an item from the cart based on its ID
     function removeFromCart(productId) {
-        // Filter the cart array to exclude the item with the matching ID
         cart = cart.filter(item => item.id !== productId);
-        // Update the cart in local storage
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Refresh the cart display in the header
         updateCartDisplay();
     }
 
-    // Function to attach event listeners to 'Remove' buttons in the cart
     function attachRemoveEventListeners() {
-        // Select all 'Remove' buttons in the cart
         const removeButtons = document.querySelectorAll('.remove-item');
         removeButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Extract the product ID from the button's data attribute
                 const productId = parseInt(button.dataset.productId);
-                // Call the removeFromCart function with the product ID to remove the item
                 removeFromCart(productId);
             });
         });
     }
 
-    // Function to create category filter options dynamically
     function createCategoryFilters() {
-        // Initialize sets to hold unique categories for groups, materials, and types
         const groupCategories = new Set();
         const materialCategories = new Set();
         const typeCategories = new Set();
 
-        // Iterate over each product and its categories
         currentProductsData.forEach(product => {
             product.categories.forEach(category => {
-                // Categorize each category into the appropriate set
                 if (['boynextdoor', 'woodz', 'wayv', 'seventeen', 'wei', 'day6', 'got7', 'plave', 'seunghwan'].includes(category)) {
                     groupCategories.add(category);
                 } else if (['photocard', 'polaroid', 'sticker', 'postcard', 'circle card', 'bookmark', 'transparent card', 'photo id'].includes(category)) {
@@ -294,10 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Clear any existing filter options
         categoryFilter.innerHTML = '';
 
-        // Sort group categories alphabetically and create filter elements for them
         const sortedGroupCategories = Array.from(groupCategories).sort();
         if (sortedGroupCategories.length > 0) {
             const groupFilterHeader = document.createElement('h3');
@@ -315,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Sort material categories alphabetically and create filter elements for them
         const sortedMaterialCategories = Array.from(materialCategories).sort();
         if (sortedMaterialCategories.length > 0) {
             const materialFilterHeader = document.createElement('h3');
@@ -333,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Sort type categories alphabetically and create filter elements for them
         const sortedTypeCategories = Array.from(typeCategories).sort();
         if (sortedTypeCategories.length > 0) {
             const typeFilterHeader = document.createElement('h3');
@@ -351,25 +306,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Attach event listeners to the new filter options
         attachCategoryFilterEventListeners();
     }
 
-    // Function to attach event listeners to category filter options
     function attachCategoryFilterEventListeners() {
         const filterOptions = document.querySelectorAll('.filter-option input');
         filterOptions.forEach(option => {
             option.addEventListener('change', () => {
-                // Get the selected categories from the checked filter options
                 const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
                     .map(el => el.value);
-                // Filter products based on the selected categories
                 filterProducts(selectedCategories);
             });
         });
     }
 
-    // Function to filter and display products based on selected categories
     function filterProducts(selectedCategories) {
         const filteredProducts = selectedCategories.length > 0
             ? currentProductsData.filter(product => selectedCategories.every(category => product.categories.includes(category)))
@@ -377,19 +327,15 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     }
 
-    // Function to handle search queries
     function handleSearch(query) {
         const filteredProducts = currentProductsData.filter(product => {
-            // Convert product name and categories to lowercase for case-insensitive matching
             const productName = product.name.toLowerCase();
             const productCategories = product.categories.join(' ').toLowerCase();
             const searchQuery = query.toLowerCase();
     
-            // Check if the product name or categories include the search query
             return productName.includes(searchQuery) || productCategories.includes(searchQuery);
         });
     
-        // Display the filtered products
         displayProducts(filteredProducts);
     }
 
@@ -409,4 +355,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const productElement = document.createElement('div');
             productElement.classList.add('product');
             productElement.innerHTML = `
-                <img src="${product.image}"
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <div class="price">Rp${product.price.toLocaleString()}</div>
+                <input type="number" min="1" max="${product.maxQuantity}" value="1" class="quantity">
+                <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+            `;
+            productContainer.appendChild(productElement);
+        });
+
+        attachAddToCartEventListeners();
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+
+    if (searchQuery) {
+        handleSearch(searchQuery);
+    } else {
+        // Display all products or a specific set of products when there is no search query
+        displayProducts(currentProductsData);
+    }
+
+    createCategoryFilters();
+    updateCartDisplay();
+});
